@@ -1,6 +1,7 @@
 import 'package:employeeapp/base.dart';
 import 'package:employeeapp/bindings/controller_binding.dart';
 import 'package:employeeapp/view/screens/login_page.dart';
+import 'package:employeeapp/view/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       initialBinding: ControllerBinding(),
-      home: const BasePage(),
+      home: const SplashScreen(),
     );
   }
 }

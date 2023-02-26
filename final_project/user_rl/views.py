@@ -1,19 +1,16 @@
 from rest_framework.response import Response
-from rest_framework import status, viewsets
+from rest_framework import status
 from rest_framework.views import APIView
-from user_rl.serializers import HrmsUserLoginSerializer,HrmsUserRegistrationSerializer,HrmsUserProfileSerializer,HrmsUserChangePasswordSerializer,AttendanceSerializer,SendPasswordResetEmailSerializer,HrmsUserPasswordResetSerializer
+from user_rl.serializers import HrmsUserLoginSerializer,HrmsUserRegistrationSerializer,HrmsUserProfileSerializer,HrmsUserChangePasswordSerializer,SendPasswordResetEmailSerializer,HrmsUserPasswordResetSerializer
+# from user_rl.serializers import UserSerializer
 from django.contrib.auth import authenticate
 from user_rl.renderers import UserRenderer
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from datetime import datetime
-from django.shortcuts import render
-# from face_recog.face_recognition import face_identify as fc
-import cv2, numpy, os
-
-from user_rl.models import Attendance
-
+# from rest_framework import viewsets
+# from user_rl.models import User
 
 
 def get_tokens_for_user(hrmsuser):
@@ -46,7 +43,6 @@ class HrmsUserLoginView(APIView):
         serializer.is_valid(raise_exception=True)
         email = serializer.data.get('email')
         password = serializer.data.get('password')
-        # face_identify = fc.face_identify('name')
         user = authenticate(email=email, password=password, identified= True)
         if user is not None:
             token = get_tokens_for_user(user)
@@ -85,17 +81,19 @@ class HrmsUserPasswordResetView(APIView):
     serializer.is_valid(raise_exception=True)
     return Response({'message':'Password Reset Successfully'}, status=status.HTTP_200_OK)
 
-
-# class HrmsUserDelete(APIView):
-#   renderer_classes = [UserRenderer]
-#   # permission_classes = [IsAdminUser]
-#   def destroy(self, request, *args, **kwargs):
-#     instance = self.get_object()
-#     self.perform_destroy(instance)
-#     return Response({"message":"Succesfully deleted item"},status=status.HTTP_204_NO_CONTENT)
-
-
-class AttendanceViewSet(viewsets.ModelViewSet):
-    queryset = Attendance.objects.all()
-    serializer_class = AttendanceSerializer
   
+# class UserView(APIView):
+#   renderer_classes = [UserRenderer]
+#   # permission_classes = [IsAuthenticated]
+#   def get(self, request, format=None):
+#     serializer = UserSerializer(request.user)
+#     return Response(serializer.data, status=status.HTTP_200_OK)
+  
+# class UserViewSet(viewsets.ModelViewSet):
+#     queryset = User.objects.all()
+#     # permission_classes = [IsAuthenticated, IsAdminUser]
+#     serializer_class = UserSerializer
+#     def destroy(self, request, *args, **kwargs):
+#         instance = self.get_object()
+#         self.perform_destroy(instance)
+#         return Response({"message":"Succesfully deleted item"},status=status.HTTP_204_NO_CONTENT)

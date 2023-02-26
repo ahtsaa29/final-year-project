@@ -1,23 +1,19 @@
 from rest_framework import serializers
-from user_rl.models import User, Attendance
+from user_rl.models import User
 from django.utils.encoding import smart_str, force_bytes, DjangoUnicodeDecodeError
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from user_rl.utils import Util
-from rest_framework.response import Response
-# from face_recog.face_recognition import face_store
 
 
 
 class HrmsUserRegistrationSerializer(serializers.ModelSerializer):
-
     password2 = serializers.CharField(style={'input_type':'password'},write_only = True)
     class Meta:
         model = User
-        fields = ['email','name','password','password2',]
+        fields = ['email','name','password','password2']
         read_only_fields = ('is_active', 'is_staff','user_id')
 
-        # fields = ['email','name','password','password2','faces']
         extra_kwargs ={
             'password':{'write_only': True}
         }
@@ -36,30 +32,22 @@ class HrmsUserRegistrationSerializer(serializers.ModelSerializer):
         return attrs
 
     def create(self, validate_data):
-        # faces= face_store('name')
-        # return HrmsUser.objects.create_user(faces,**validate_data)
+        
         return User.objects.create_user(**validate_data)
 
 class HrmsUserLoginSerializer(serializers.ModelSerializer):
-  # time_stamp = serializers.SerializerMethodField()
   email = serializers.EmailField(max_length=255)
   class Meta:
     model = User
     fields = ['email', 'password','identified']
 
-  # def get_time_stamp(obj):
-  #   print(obj)
-  #   return obj.last_login
+
 
 class HrmsUserProfileSerializer(serializers.ModelSerializer):
   class Meta:
     model = User
-    fields = ['id', 'email', 'name']
+    fields = ['id', 'email', 'name','phone']
 
-class AttendanceSerializer(serializers.ModelSerializer):
-  class Meta:
-    model = Attendance
-    fields = ['id', 'email', 'name']
 
 
 class HrmsUserChangePasswordSerializer(serializers.Serializer):
@@ -132,7 +120,8 @@ class HrmsUserPasswordResetSerializer(serializers.Serializer):
 
 
 
-class AttendanceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Attendance
-        fields = '__all__'
+# class UserSerializer (serializers.HyperlinkedModelSerializer):
+
+#     class Meta:
+#         model = User
+#         fields= "__all__"

@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
-from userdetails.models import Designation, Payroll
+from userdetails.models import Designation
 
 
 # Create your models here.
@@ -8,14 +8,9 @@ class CustomUserManager(BaseUserManager):
     def create_user(self, email, name, password=None, password2 = None):
         if not email:
             raise ValueError('Users must have an email address')
-        # if not faces:
-        #     faces=fc.face_store('name')
-        #     return faces
-
         user = self.model(
             email=self.normalize_email(email),
             name = name,
-            # faces=faces
         )
 
         user.set_password(password)
@@ -28,7 +23,6 @@ class CustomUserManager(BaseUserManager):
             email,
             password=password,
             name= name,
-            # faces=faces
         )
         user.is_admin = True
         user.save(using=self._db)
@@ -58,7 +52,6 @@ class User(AbstractBaseUser):
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
-    # REQUIRED_FIELDS = ['name','faces']
     REQUIRED_FIELDS = ['name']
 
 
@@ -81,11 +74,4 @@ class User(AbstractBaseUser):
         # Simplest possible answer: All admins are staff
         return self.is_admin
 
-
-class Attendance(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE, default=None)
-    time_stamp = models.DateTimeField(default=None)
-    is_late = models.BooleanField()
-    is_early = models.BooleanField()
-    image = models.ImageField()
 
