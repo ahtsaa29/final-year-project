@@ -25,35 +25,6 @@ def get_tokens_for_user(hrmsuser):
         'time_stamp':str(time_stamp)
     }
 
-def register_dataset(hrmsuser):
-  face_cap = cv2.CascadeClassifier('face_recognition/haarcascade_frontalface_default.xml')
-  datasets = 'face_recognition/datasets/'  
-  video_cap = cv2.VideoCapture(0)
-  size = 4
-  path = os.path.join(datasets, hrmsuser)
-  if not os.path.isdir(path):
-    os.mkdir(path)
-  (width, height) = (130, 100)   
-  count = 0
-  while count < 30: 
-      (_, cap_data) = video_cap.read()
-      col = cv2.cvtColor(cap_data, cv2.COLOR_BGR2GRAY)
-      faces = face_cap.detectMultiScale(col, 1.3, 4)
-      for (x, y, w, h) in faces:
-          cv2.rectangle(cap_data, (x, y), (x + w, y + h), (255, 0, 0), 2)
-          face = col[y:y + h, x:x + w]
-          face_resize = cv2.resize(face, (width, height))
-          cv2.imwrite('% s/% s.png' % (path, count), face_resize)
-      count += 1
-      
-      cv2.imshow('Reading your image', cap_data)
-      if cv2.waitKey(100) == ord("z"):
-          break
-
-  return Response({
-      'message': "Your face is stored for future Logins"
-  }, status=status.HTTP_200_OK)
-
 class HrmsUserRegistrationView(APIView):
     renderer_classes = [UserRenderer]
     permission_classes = [IsAdminUser]
@@ -62,8 +33,7 @@ class HrmsUserRegistrationView(APIView):
         serializer.is_valid(raise_exception=True)
         hrmsuser = serializer.save()
         token = get_tokens_for_user(hrmsuser)
-        face_dataset = register_dataset(hrmsuser)
-        data ={'dataset':face_dataset,'token': token,'message':'registration success','location':'register_dataset'}
+        data ={'token': token,'message':'registration success','location':'register_dataset'}
         return Response(data, status= status.HTTP_201_CREATED)
         
 

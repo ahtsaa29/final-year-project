@@ -10,7 +10,7 @@ from userdetails.serializers import CompanySerializer, PayrollSerializer, Applic
 
 class CompanyViewSet(viewsets.ModelViewSet):
     queryset = Company.objects.all()
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAuthenticated, IsAdminUser]
     serializer_class = CompanySerializer
     def create(self,request, *args, **kwargs):
         company = Company.objects.first()
@@ -32,8 +32,9 @@ class CompanyViewSet(viewsets.ModelViewSet):
 
 class PayrollViewSet(viewsets.ModelViewSet):
     queryset = Payroll.objects.all()
-    permission_classes = [IsAuthenticated]
-    http_method_names = ['get']
+    # permission_classes = [IsAuthenticated, IsAdminUser]
+    serializer_class = PayrollSerializer
+    # http_method_names = ['get']
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         self.perform_destroy(instance)
@@ -45,7 +46,7 @@ class PayrollViewSet(viewsets.ModelViewSet):
 
 class ApplicationViewSet(viewsets.ModelViewSet):
     queryset = Application.objects.all()
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated, IsAdminUser]
     serializer_class = ApplicationSerializer
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -55,7 +56,7 @@ class ApplicationViewSet(viewsets.ModelViewSet):
 
 class ApplicationTypeViewSet(viewsets.ModelViewSet):
     queryset = ApplicationType.objects.all()
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAuthenticated, IsAdminUser]
     serializer_class = ApplicationTypeSerializer
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -65,7 +66,7 @@ class ApplicationTypeViewSet(viewsets.ModelViewSet):
 
 class DesignationViewSet(viewsets.ModelViewSet):
     queryset = Designation.objects.all()
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAuthenticated, IsAdminUser]
     serializer_class = DesignationSerializer
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()

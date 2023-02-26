@@ -21,12 +21,37 @@ class DesignationSerializer (serializers.HyperlinkedModelSerializer):
         fields= "__all__"
 
 
-class PayrollSerializer (serializers.HyperlinkedModelSerializer):
-    payroll_id = serializers.ReadOnlyField()
+class PayrollSerializer (serializers.ModelSerializer):
+    # payroll_id = serializers.ReadOnlyField()
+    # designation_url = serializers.HyperlinkedRelatedField(
+    #     view_name='designation-detail',
+    #     queryset=Designation.objects.all(),
+    #     lookup_field='designation_id',
+    #     write_only=True
+    # )
+    # designation = serializers.SerializerMethodField()
     class Meta:
         model = Payroll
         fields= "__all__"
         read_only_fields =['salary','tax_amount','gross_salary','net_salary']
+
+    # def create(self, validated_data):
+    #     designation_url = validated_data.pop('designation_url')
+    #     print(designation_url)
+    #     designation_id = str(designation_url)
+    #     print(designation_id)
+
+    #     designation = Designation.objects.get(pk=designation_id)
+    #     payroll = Payroll.objects.create(designation=designation, **validated_data)
+    #     return payroll
+
+    def get_designation(self, obj):
+        print("---------------------------",obj)
+        if obj.designation:
+            # designation= Designation.objects.get(designation_id=obj.designation)
+            return obj.designation.designation_id
+        return None
+
 
 
 class ApplicationTypeSerializer (serializers.HyperlinkedModelSerializer):
@@ -37,7 +62,7 @@ class ApplicationTypeSerializer (serializers.HyperlinkedModelSerializer):
         fields= "__all__"
 
 
-class ApplicationSerializer (serializers.HyperlinkedModelSerializer):
+class ApplicationSerializer (serializers.ModelSerializer):
     Application_id = serializers.ReadOnlyField()
     def validate_for_days(self, value):
         if value < 1:

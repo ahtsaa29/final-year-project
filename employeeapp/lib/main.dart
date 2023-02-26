@@ -1,5 +1,8 @@
 import 'package:employeeapp/base.dart';
+import 'package:employeeapp/bindings/controller_binding.dart';
+import 'package:employeeapp/view/screens/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,7 +14,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Employee App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -27,6 +30,7 @@ class MyApp extends StatelessWidget {
           centerTitle: false,
         ),
       ),
+      initialBinding: ControllerBinding(),
       home: const BasePage(),
     );
   }

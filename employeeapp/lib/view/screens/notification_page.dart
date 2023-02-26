@@ -7,6 +7,9 @@ class NotificationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          title: Text("Notifications"),
+        ),
         body: SizedBox(
             child: Column(
           children: const [

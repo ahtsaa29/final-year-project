@@ -6,6 +6,7 @@ import 'package:employeeapp/view/screens/notification_page.dart';
 import 'package:employeeapp/view/screens/payroll_page.dart';
 import 'package:employeeapp/view/screens/settings_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class BasePage extends StatefulWidget {
   const BasePage({super.key});
@@ -26,10 +27,7 @@ class _BasePageState extends State<BasePage> {
             splashRadius: 20,
             splashColor: Colors.purple[200],
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const AccountPage()),
-              );
+              Get.to(const AccountPage());
             },
             icon: const Icon(
               Icons.account_circle,
@@ -38,11 +36,7 @@ class _BasePageState extends State<BasePage> {
           actions: [
             IconButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const NotificationPage()),
-                );
+                Get.to(const NotificationPage());
               },
               icon: const Icon(
                 Icons.notifications_outlined,

@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import datetime
-
+from django.conf import settings
+#from user_rl.models import User
 # Create your models here.
 
 
@@ -25,7 +26,11 @@ class Designation(models.Model):
         return self.name
         
 class Payroll(models.Model):
-    payroll_id = models.AutoField(primary_key=True)
+    # payroll_id = models.AutoField(primary_key=True)
+    payee  = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
     designation =models.ForeignKey(Designation, on_delete=models.CASCADE, default=None)
     salary = models.DecimalField(max_digits=8, decimal_places=2,default=0, null=False)
     gross_salary = models.DecimalField(max_digits=8, decimal_places=2)
@@ -45,7 +50,7 @@ class Payroll(models.Model):
         self.net_salary = self.gross_salary - self.tax_amount
 
     def __str__(self):
-        return self.designation.name + "-" + self.salary
+        return self.designation.name + "-" + str(self.salary)
     
 class ApplicationType(models.Model):
     issue_id = models.AutoField(primary_key=True)
@@ -57,14 +62,23 @@ class ApplicationType(models.Model):
 class Application(models.Model):
     # user le pathaune
     application_id = models.AutoField(primary_key=True)
+    applicaant  = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
     apply_for = models.ForeignKey(ApplicationType, on_delete=models.CASCADE, default=None, null=False)
     title = models.CharField(max_length=25, null=False)
     reason = models.TextField(null=False)
     date = models.DateTimeField(default=datetime.now, editable=False)
     for_days = models.IntegerField(null=False)
     STATUS = (
-        ('Approved','Approved'),
+        ('Pending','Pending'),
         ('Declined','Declined'),
-        ('Pending','Pending')
+        ('Approved','Approved')
     )
+    status = models.CharField(
+        max_length = 20,
+        choices = STATUS,
+        default = '1'
+        )
 
