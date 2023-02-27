@@ -19,8 +19,11 @@ class HrmsUserRegistrationSerializer(serializers.ModelSerializer):
         }
       
     def validate_phone(self, value):
-        if value < 9000000000 or value > 9999999999:
-            raise serializers.ValidationError('wrong format')
+        # if value < 1000000000 or value > 9999999999:
+        #     raise serializers.ValidationError('wrong format')
+        # return value
+        if len(value) != 10 or value[0] != '9':
+            raise serializers.ValidationError("Phone number must start with 9 and have exactly 10 digits.")
         return value
     # validate pw
     def validate(self, attrs):
@@ -46,7 +49,7 @@ class HrmsUserLoginSerializer(serializers.ModelSerializer):
 class HrmsUserProfileSerializer(serializers.ModelSerializer):
   class Meta:
     model = User
-    fields = ['id', 'email', 'name','phone']
+    fields = ['id', 'email', 'name','phone','address','designation','pan_no']
 
 
 

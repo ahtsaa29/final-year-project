@@ -37,7 +37,7 @@ class User(AbstractBaseUser):
         unique=True,
     )
     name = models.CharField(max_length=100)
-    phone = models.IntegerField(null=True)
+    phone = models.CharField(max_length=100,null=True)
     address = models.CharField(max_length=100,null=True)
     pan_no = models.BigIntegerField(null=True)
     designation = models.ForeignKey(Designation, on_delete=models.CASCADE, default=None, null=True)
