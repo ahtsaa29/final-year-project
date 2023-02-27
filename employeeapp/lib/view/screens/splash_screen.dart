@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:ui';
-
-import 'package:employeeapp/base.dart';
+import 'package:employeeapp/view/screens/login_page.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,9 +14,8 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    Timer(const Duration(seconds: 3), () => Get.to(const BasePage()));
+    Timer(const Duration(seconds: 3), () => Get.to(const LoginPage()));
   }
 
   @override

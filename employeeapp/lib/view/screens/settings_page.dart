@@ -1,3 +1,5 @@
+import 'package:employeeapp/view/screens/change_password.dart';
+import 'package:employeeapp/view/screens/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -20,19 +22,19 @@ class _SettingsPageState extends State<SettingsPage> {
       primarySwatch: Colors.purple,
       // add any other properties for the dark theme here
     );
-    ValueNotifier<ThemeData> currentTheme = ValueNotifier(lightTheme);
+    // ValueNotifier<ThemeData> currentTheme = ValueNotifier(lightTheme);
 
     return ListView(
       children: [
         ExpansionTile(
-          title: Text("Theme"),
+          title: const Text("Theme"),
           children: [
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Dark Theme"),
+                  const Text("Dark Theme"),
                   Switch(
                     value: Get.isDarkMode,
                     onChanged: (value) {
@@ -52,14 +54,30 @@ class _SettingsPageState extends State<SettingsPage> {
             )
           ],
         ),
-        ListTile(
+        const ListTile(
           title: Text("View Statistics"),
+          trailing: Icon(Icons.graphic_eq_outlined),
         ),
-        ListTile(
-          title: Text("Change Password"),
+        GestureDetector(
+          onTap: () => Get.to(const ChangePasswordView()),
+          child: const ListTile(
+            title: Text("Change Password"),
+            trailing: Icon(Icons.change_circle_outlined),
+          ),
         ),
-        ListTile(
-          title: Text("Logout"),
+        GestureDetector(
+          onTap: null,
+          child: const ListTile(
+            title: Text("Forgot Password"),
+            trailing: Icon(Icons.device_unknown_outlined),
+          ),
+        ),
+        GestureDetector(
+          onTap: () => Get.offAll(const LoginPage()),
+          child: const ListTile(
+            title: Text("Logout"),
+            trailing: Icon(Icons.exit_to_app_outlined),
+          ),
         ),
       ],
     );
