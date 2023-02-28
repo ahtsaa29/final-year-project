@@ -10,7 +10,6 @@ class ControllerBinding extends Bindings {
     Get.put(AccountController());
     Get.put(ApplicationController());
     Get.put(CompanyController());
-    // Get.put(LoginController());
     Get.put(PayrollController());
   }
 }

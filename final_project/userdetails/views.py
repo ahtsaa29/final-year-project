@@ -10,7 +10,7 @@ from userdetails.serializers import CompanySerializer, PayrollSerializer, Applic
 
 class CompanyViewSet(viewsets.ModelViewSet):
     queryset = Company.objects.all()
-    permission_classes = [IsAuthenticated, IsAdminUser]
+    # permission_classes = [IsAuthenticated, IsAdminUser]
     serializer_class = CompanySerializer
     def create(self,request, *args, **kwargs):
         company = Company.objects.first()

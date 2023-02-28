@@ -9,6 +9,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from datetime import datetime
+from user_rl.models import User
 # from rest_framework import viewsets
 # from user_rl.models import User
 
@@ -53,11 +54,12 @@ class HrmsUserLoginView(APIView):
 
 
 class HrmsUserProfileView(APIView):
+  queryset = User.objects.all()
   renderer_classes = [UserRenderer]
-  permission_classes = [IsAuthenticated]
+  # permission_classes = [IsAuthenticated]
   def get(self, request, format=None):
     serializer = HrmsUserProfileSerializer(request.user)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response({'data':serializer.data})
 
 class HrmsUserChangePasswordView(APIView):
   renderer_classes = [UserRenderer]
@@ -81,19 +83,3 @@ class HrmsUserPasswordResetView(APIView):
     serializer.is_valid(raise_exception=True)
     return Response({'message':'Password Reset Successfully'}, status=status.HTTP_200_OK)
 
-  
-# class UserView(APIView):
-#   renderer_classes = [UserRenderer]
-#   # permission_classes = [IsAuthenticated]
-#   def get(self, request, format=None):
-#     serializer = UserSerializer(request.user)
-#     return Response(serializer.data, status=status.HTTP_200_OK)
-  
-# class UserViewSet(viewsets.ModelViewSet):
-#     queryset = User.objects.all()
-#     # permission_classes = [IsAuthenticated, IsAdminUser]
-#     serializer_class = UserSerializer
-#     def destroy(self, request, *args, **kwargs):
-#         instance = self.get_object()
-#         self.perform_destroy(instance)
-#         return Response({"message":"Succesfully deleted item"},status=status.HTTP_204_NO_CONTENT)
